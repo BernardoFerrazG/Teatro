@@ -1,0 +1,16 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build (warnings as errors)
+        run: make CFLAGS="-Wall -Wextra -Wpedantic -O2 -Werror"
+      - name: Unit tests (AddressSanitizer + UBSan)
+        run: make test
